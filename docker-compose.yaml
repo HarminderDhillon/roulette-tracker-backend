@@ -6,6 +6,8 @@ services:
       - "8080:8080"
     networks:
       - app-network
+    working_dir:
+      /app  # Ensure the correct working directory
     depends_on:
       - db
     environment:

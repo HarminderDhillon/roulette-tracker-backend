@@ -42,12 +42,12 @@ jobs:
       - name: Build and start services using Docker Compose
         run: docker-compose up -d --build
 
-      - name: Wait for app to be ready
+      - name: Wait for services to be ready
         run: |
-          sleep 10 # Ensure services are ready before running tests
+          sleep 10
 
       - name: Run tests in the app container
         run: docker-compose exec app ./gradlew test
 
       - name: Stop and clean up services
-        run: docker-compose down
+        run: docker-compose down --volumes

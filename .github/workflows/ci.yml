@@ -51,7 +51,7 @@ jobs:
         run: sleep 10
 
       - name: Run tests in the app container
-        run: docker-compose exec app ./gradlew test
+        run: docker-compose exec -T app ./gradlew test
 
       - name: Stop and clean up services
         run: docker-compose down --volumes

@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI Pipeline with Docker Compose
 
 on:
   push:
@@ -36,5 +36,18 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test --no-daemon
 
-      - name: Build Docker image
-        run: docker build -t roulette-tracker-app .
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and start services using Docker Compose
+        run: docker-compose up -d --build
+
+      - name: Wait for app to be ready
+        run: |
+          sleep 10 # Ensure services are ready before running tests
+
+      - name: Run tests in the app container
+        run: docker-compose exec app ./gradlew test
+
+      - name: Stop and clean up services
+        run: docker-compose down
